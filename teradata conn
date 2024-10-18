@@ -1,0 +1,42 @@
+package testtt;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class java {
+
+	public static void main(String[] args) {
+		   String url = "jdbc:teradata://test-94qh72m9ah3hfm1u.env.clearscape.teradata.com/DATABASE=demo_user";//<호스트명>/DATABASE=<데이터베이스명>
+	        String user = "demo_user";
+	        String password = "tntngusrl";
+
+	        try {
+	            // 드라이버 로드
+	            Class.forName("com.teradata.jdbc.TeraDriver");
+
+	            // 연결 생성
+	            Connection connection = DriverManager.getConnection(url, user, password);
+	            Statement statement = connection.createStatement();
+
+	            // 쿼리 실행
+	            String query = "SELECT * FROM T1 ";
+	            ResultSet resultSet = statement.executeQuery(query);
+
+	            // 결과 처리
+	            while (resultSet.next()) {
+	                System.out.println(resultSet.getString(1)); // 첫 번째 열 출력
+	            }
+
+	            // 자원 정리
+	            resultSet.close();
+	            statement.close();
+	            connection.close();
+	        } catch (ClassNotFoundException e) {
+	            e.printStackTrace();
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	    }
+	}
